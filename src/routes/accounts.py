@@ -4,7 +4,7 @@ from database import get_db
 from sqlalchemy.orm import Session
 from security import decode_token
 from fastapi.security import OAuth2PasswordBearer
-from crud import get_user_by_email
+from database.models.crud import get_user_by_emai
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 router = APIRouter()
@@ -28,7 +28,7 @@ async def require_admin(current_user: UserRead = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Access forbidden: admins only")
     return current_user
 
-@router.post("/api/v1/accounts/refresh/", response_model=)
+@router.post("/api/v1/accounts/refresh/", response_model=UserUpdate)
 def refresh(Authorize: AuthJWT = Depends()):
     Authorize.jwt_refresh_token_required()
 
